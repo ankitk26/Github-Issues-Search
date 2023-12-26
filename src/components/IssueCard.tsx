@@ -16,17 +16,17 @@ interface Props {
 
 export default function IssueCard({ issue }: Props) {
   const issueUserGithubUrl = `https://github.com/${issue.user.login}`;
+  const issueRepoUrl = issue.url.replace("api.", "").replace("repos/", "");
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>
-          <a href={""}>
-            {issue.repositoryURL}
-            {issue.title}
+        <CardTitle>{issue.title}</CardTitle>
+        <CardDescription>
+          <a href={issueRepoUrl} className="hover:underline">
+            {issueRepoUrl}
           </a>
-        </CardTitle>
-        <CardDescription>{issue.repositoryURL}</CardDescription>
+        </CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -40,7 +40,7 @@ export default function IssueCard({ issue }: Props) {
 
       <CardFooter className="flex items-center gap-2">
         <Avatar>
-          <AvatarImage src={issue.user.avatarURL} alt={issue.user.login} />
+          <AvatarImage src={issue.user.avatar_url} alt={issue.user.login} />
           <AvatarFallback>{issue.user.login[0].toUpperCase()}</AvatarFallback>
         </Avatar>
         <small className="muted">

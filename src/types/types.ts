@@ -1,12 +1,12 @@
 export type Issue = {
   url: string;
-  repositoryURL: string;
-  labelsURL: string;
-  commentsURL: string;
-  eventsURL: string;
-  htmlURL: string;
+  repository_url: string;
+  labels_url: string;
+  comments_url: string;
+  events_url: string;
+  html_url: string;
   id: number;
-  nodeID: string;
+  node_id: string;
   number: number;
   title: string;
   user: User;
@@ -17,47 +17,45 @@ export type Issue = {
   assignees: User[];
   milestone: Milestone | null;
   comments: number;
-  createdAt: Date;
-  updatedAt: Date;
-  closedAt: null;
-  authorAssociation: string;
-  activeLockReason: null;
+  created_at: Date;
+  updated_at: Date;
+  closed_at: Date | null;
+  author_association: string;
+  active_lock_reason: null;
   draft?: boolean;
-  pullRequest?: PullRequest;
+  pull_request?: PullRequest;
   body: null | string;
   reactions: Reactions;
-  timelineURL: string;
-  performedViaGithubApp: null;
-  stateReason: null;
+  timeline_url: string;
+  performed_via_github_app: null;
+  state_reason: null;
   score: number;
 };
 
 export type User = {
   login: string;
   id: number;
-  nodeID: string;
-  avatarURL: string;
-  gravatarID: string;
+  node_id: string;
+  avatar_url: string;
+  gravatar_id: string;
   url: string;
-  htmlURL: string;
-  followersURL: string;
-  followingURL: string;
-  gistsURL: string;
-  starredURL: string;
-  subscriptionsURL: string;
-  organizationsURL: string;
-  reposURL: string;
-  eventsURL: string;
-  receivedEventsURL: string;
-  type: Type;
-  siteAdmin: boolean;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: boolean;
 };
-
-export type Type = "User";
 
 export type Label = {
   id: number;
-  nodeID: string;
+  node_id: string;
   url: string;
   name: string;
   color: string;
@@ -67,40 +65,44 @@ export type Label = {
 
 export type Milestone = {
   url: string;
-  htmlURL: string;
-  labelsURL: string;
+  html_url: string;
+  labels_url: string;
   id: number;
-  nodeID: string;
+  node_id: string;
   number: number;
   title: string;
   description: string;
   creator: User;
-  openIssues: number;
-  closedIssues: number;
+  open_issues: number;
+  closed_issues: number;
   state: string;
-  createdAt: Date;
-  updatedAt: Date;
-  dueOn: null;
-  closedAt: null;
+  created_at: Date;
+  updated_at: Date;
+  due_on: null;
+  closed_at: null;
 };
 
 export type PullRequest = {
   url: string;
-  htmlURL: string;
-  diffURL: string;
-  patchURL: string;
-  mergedAt: Date | null;
+  html_url: string;
+  diff_url: string;
+  patch_url: string;
+  merged_at: null;
 };
 
 export type Reactions = {
   url: string;
-  totalCount: number;
-  the1: number;
-  reactions1: number;
+  total_count: number;
+  "+1": number;
+  "-1": number;
   laugh: number;
   hooray: number;
   confused: number;
   heart: number;
   rocket: number;
   eyes: number;
+};
+
+export type SearchParams = {
+  [key: string]: string | string[] | undefined;
 };
