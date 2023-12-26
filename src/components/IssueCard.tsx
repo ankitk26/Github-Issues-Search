@@ -21,7 +21,13 @@ export default function IssueCard({ issue }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{issue.title}</CardTitle>
+        <CardTitle
+          className={
+            issue.state === "open" ? "text-orange-500" : "text-purple-500"
+          }
+        >
+          {issue.title}
+        </CardTitle>
         <CardDescription>
           <a href={issueRepoUrl} target="_blank" className="hover:underline">
             {issueRepoUrl}
