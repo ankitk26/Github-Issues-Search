@@ -23,7 +23,7 @@ export default function IssueCard({ issue }: Props) {
       <CardHeader>
         <CardTitle>{issue.title}</CardTitle>
         <CardDescription>
-          <a href={issueRepoUrl} className="hover:underline">
+          <a href={issueRepoUrl} target="_blank" className="hover:underline">
             {issueRepoUrl}
           </a>
         </CardDescription>
@@ -36,6 +36,8 @@ export default function IssueCard({ issue }: Props) {
               <Badge key={label.name}>{label.name}</Badge>
             ))}
         </div>
+
+        {issue.state}
       </CardContent>
 
       <CardFooter className="flex items-center gap-2">
@@ -45,7 +47,7 @@ export default function IssueCard({ issue }: Props) {
         </Avatar>
         <small className="muted">
           Created by{" "}
-          <a href={issueUserGithubUrl} className="underline">
+          <a href={issueUserGithubUrl} target="_blank" className="underline">
             {issue.user.login}
           </a>
         </small>

@@ -10,14 +10,16 @@ interface Props {
 
 export default async function Home({ searchParams }: Props) {
   const query = searchParams.query;
+  const page = searchParams.page;
 
-  const { issues, resultsCount } = await searchIssues(searchParams);
+  const { issues, totalCount } = await searchIssues(searchParams);
 
   return (
     <section>
       <SearchBox />
-      {resultsCount > 0 ||
-        (Object.keys(searchParams).length > 0 && <IssuePagination />)}
+      {(totalCount > 0 || page !== undefined) && (
+        <IssuePagination totalCount={Math.min(totalCount, 30 * 30)} />
+      )}
       {query && (
         <div className="m-10 grid grid-cols-3 gap-4">
           {issues?.map((issue) => (

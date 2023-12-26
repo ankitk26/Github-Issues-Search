@@ -56,7 +56,6 @@ export default function SearchBox() {
     }
 
     queryString += paramsToQuery;
-    console.log(queryString);
 
     router.push(`?${queryString}&page=1`);
   }

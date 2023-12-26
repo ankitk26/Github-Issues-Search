@@ -4,17 +4,22 @@ import { Issue, SearchParams } from "@/types/types";
 
 export async function searchIssues(searchParams: SearchParams): Promise<{
   issues: Issue[] | null;
-  resultsCount: number;
+  totalCount: number;
 }> {
   try {
-    console.log(searchParams);
     const query = searchParams.query;
     const page = searchParams.page;
 
-    const queryString = `q=${query}`;
+    if (query === undefined) {
+      return {
+        issues: null,
+        totalCount: 0,
+      };
+    }
 
+    const queryString = `q=${query}`;
     const url = `https://api.github.com/search/issues?${queryString}&page=${page}`;
-    console.log("api call to", url);
+    // console.log("api call to", url);
 
     const res = await fetch(url, {
       headers: {
@@ -24,17 +29,17 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
     }).then((res) => res.json());
 
     const issues = res.items;
-    const resultsCount = res.total_count;
+    const totalCount = res.total_count;
 
     return {
       issues,
-      resultsCount,
+      totalCount,
     };
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return {
       issues: null,
-      resultsCount: 0,
+      totalCount: 0,
     };
   }
 }
