@@ -42,8 +42,6 @@ export default function IssueCard({ issue }: Props) {
               <Badge key={label.name}>{label.name}</Badge>
             ))}
         </div>
-
-        {issue.state}
       </CardContent>
 
       <CardFooter className="flex items-center gap-2">
