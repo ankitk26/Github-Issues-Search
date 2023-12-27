@@ -18,6 +18,7 @@ export default function SearchBox() {
     language: "",
     state: "all",
     user: "",
+    label: "",
   });
 
   const router = useRouter();
@@ -86,6 +87,24 @@ export default function SearchBox() {
           <SelectItem value="closed">Closed</SelectItem>
         </SelectContent>
       </Select>
+
+      <Select
+        value={queryParams.label}
+        onValueChange={(val) => updateQueryParams("label", val)}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Label" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="bug">Bug</SelectItem>
+          <SelectItem value="documentation">Documentation</SelectItem>
+          <SelectItem value='"good first issue"'>Good first issue</SelectItem>
+          <SelectItem value="enhancement">Enhancement</SelectItem>
+          <SelectItem value="feature">Feature</SelectItem>
+          <SelectItem value="help wanted">Help wanted</SelectItem>
+        </SelectContent>
+      </Select>
+
       <Input
         value={queryParams.user}
         placeholder="Repo owner"
