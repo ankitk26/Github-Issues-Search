@@ -56,18 +56,4 @@
   body {
     @apply bg-background text-foreground;
   }
-
-  p {
-    @apply leading-7 [&:not(:first-child)]:mt-6;
-  }
-
-  small {
-    @apply text-sm font-medium leading-none;
-  }
-}
-
-@layer components {
-  .muted {
-    @apply text-sm text-muted-foreground;
-  }
 }

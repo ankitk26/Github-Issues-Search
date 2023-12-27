@@ -28,8 +28,12 @@ export default function IssuePagination({ totalCount }: Props) {
   const startPage = Math.max(1, page - 4);
   const endPage = Math.min(totalPages, startPage + 9);
 
+  if (totalPages === 1) {
+    return null;
+  }
+
   return (
-    <Pagination>
+    <Pagination className="mt-10">
       <PaginationContent>
         {page !== 1 && (
           <>

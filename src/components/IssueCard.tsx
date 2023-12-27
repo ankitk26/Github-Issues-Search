@@ -9,6 +9,7 @@ import {
 import { Issue } from "@/types/types";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
+import { LockClosedIcon, LockOpen2Icon } from "@radix-ui/react-icons";
 
 interface Props {
   issue: Issue;
@@ -21,13 +22,15 @@ export default function IssueCard({ issue }: Props) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle
-          className={
-            issue.state === "open" ? "text-orange-500" : "text-purple-500"
-          }
-        >
-          {issue.title}
-        </CardTitle>
+        <div className="flex gap-2 flex-wrap items-center">
+          {issue.state === "open" && (
+            <LockOpen2Icon className="w-4 h-4 text-orange-500" />
+          )}
+          {issue.state === "closed" && (
+            <LockClosedIcon className="w-4 h-4 text-purple-500" />
+          )}
+          <CardTitle>{issue.title}</CardTitle>
+        </div>
         <CardDescription>
           <a href={issueRepoUrl} target="_blank" className="hover:underline">
             {issueRepoUrl}

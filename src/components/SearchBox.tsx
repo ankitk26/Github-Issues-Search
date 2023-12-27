@@ -56,12 +56,13 @@ export default function SearchBox() {
     }
 
     queryString += paramsToQuery;
+    console.log(queryString);
 
     router.push(`?${queryString}&page=1`);
   }
 
   return (
-    <form onSubmit={getResults} className="m-10 flex gap-4 items-center">
+    <form onSubmit={getResults} className="flex gap-4 items-center">
       <Input
         value={query}
         placeholder="Search for any issues"
@@ -90,7 +91,9 @@ export default function SearchBox() {
         placeholder="Repo owner"
         onChange={(e) => updateQueryParams("user", e.target.value)}
       />
-      <Button type="submit">Search</Button>
+      <Button type="submit" size="sm">
+        Search
+      </Button>
     </form>
   );
 }
