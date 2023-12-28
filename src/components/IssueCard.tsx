@@ -52,12 +52,17 @@ export default function IssueCard({ issue }: Props) {
           <AvatarImage src={issue.user.avatar_url} alt={issue.user.login} />
           <AvatarFallback>{issue.user.login[0].toUpperCase()}</AvatarFallback>
         </Avatar>
-        <small className="muted">
-          Created by{" "}
-          <a href={issueUserGithubUrl} target="_blank" className="underline">
-            {issue.user.login}
-          </a>
-        </small>
+        <div className="flex flex-col gap-1">
+          <small className="muted">
+            Created by{" "}
+            <a href={issueUserGithubUrl} target="_blank" className="underline">
+              {issue.user.login}
+            </a>
+          </small>
+          <small className="text-xs text-gray-500">
+            {new Date(issue.created_at).toLocaleDateString()}
+          </small>
+        </div>
       </CardFooter>
     </Card>
   );

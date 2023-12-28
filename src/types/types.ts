@@ -17,8 +17,8 @@ export type Issue = {
   assignees: User[];
   milestone: Milestone | null;
   comments: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   closed_at: Date | null;
   author_association: string;
   active_lock_reason: null;
@@ -76,8 +76,8 @@ export type Milestone = {
   open_issues: number;
   closed_issues: number;
   state: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   due_on: null;
   closed_at: null;
 };
