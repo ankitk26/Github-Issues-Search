@@ -8,7 +8,14 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
 }> {
   try {
     const query = searchParams.query;
-    const page = searchParams.page;
+
+    console.log(searchParams);
+    const otherFilters = Object.keys(searchParams)
+      .filter((param) => param !== "query")
+      .map((param) => `${param}=${searchParams[param]}`)
+      .join("&");
+
+    console.log(otherFilters);
 
     if (query === undefined) {
       return {
@@ -17,9 +24,9 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
       };
     }
 
-    const queryString = `q=${query}`;
-    const url = `https://api.github.com/search/issues?${queryString}&page=${page}`;
-    // console.log("api call to", url);
+    const queryString = `q=${query}+is:issue`;
+    const url = `https://api.github.com/search/issues?${queryString}&${otherFilters}`;
+    console.log("api call to", url);
 
     const res = await fetch(url, {
       headers: {

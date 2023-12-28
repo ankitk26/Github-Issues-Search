@@ -28,7 +28,7 @@ export default async function Home({ searchParams }: Props) {
         <IssuePagination totalCount={Math.min(totalCount, 30 * 30)} />
       )}
       {query && (
-        <div className="grid grid-cols-3 mt-10 gap-4">
+        <div className="grid grid-cols-3 mt-14 gap-4">
           {issues?.map((issue) => (
             <IssueCard key={issue.id} issue={issue} />
           ))}
