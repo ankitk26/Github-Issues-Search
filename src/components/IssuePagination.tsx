@@ -21,15 +21,12 @@ interface Props {
 
 export default function IssuePagination({ totalCount }: Props) {
   const searchParams = useSearchParams();
-  const query = searchParams.get("query");
   const page = Number(searchParams.get("page"));
-  const sort = searchParams.get("sort");
 
   const params = new URLSearchParams(searchParams);
 
-  const currentUrl = `/?query=${query}${
-    params.has("sort") ? `&sort=${sort}` : ""
-  }`;
+  const currentUrl = "/?" + params.toString().replace(`&page=${page}`, "");
+  console.log(currentUrl);
 
   const totalPages = Math.ceil(totalCount / 30);
 

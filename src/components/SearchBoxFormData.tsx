@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -11,9 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { toast } from "sonner";
 
 export default function SearchBoxFormData() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // function getResults(e: FormEvent) {
   //   e.preventDefault();
@@ -68,21 +70,32 @@ export default function SearchBoxFormData() {
       [key: string]: string | number;
     };
 
+    let finalParams = "&page=1";
     data.forEach((val, key) => {
       if (val === "" || val === "none") {
+        return;
+      }
+      if (key === "sort") {
+        finalParams += `&sort=${val}`;
         return;
       }
       params[key] = val.toString();
     });
 
+    if (Object.entries(params).length === 0) {
+      toast("Enter some filters to display issues");
+      return;
+    }
+
     const queryString = Object.entries(params)
       .map(([key, val]) => {
         const value = val.toString().split(" ").length > 1 ? `"${val}"` : val;
-        return key + "=" + value;
+        return key + "=" + encodeURIComponent(value);
       })
       .join("&");
 
-    router.replace(`?${queryString}&page=1`);
+    console.log("client", queryString);
+    router.replace(`?${queryString}${finalParams}`);
 
     // console.log(params);
   }
@@ -91,17 +104,25 @@ export default function SearchBoxFormData() {
     <form action={handleForm} className="flex flex-wrap gap-8 items-center">
       <div className="flex flex-col gap-2 items-start">
         <Label>Search text in issue</Label>
-        <Input name="search" placeholder="Search for any issues" />
+        <Input
+          name="search"
+          placeholder="Search for any issues"
+          defaultValue={searchParams.get("search") ?? ""}
+        />
       </div>
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Language</Label>
-        <Input name="language" placeholder="Language" />
+        <Input
+          name="language"
+          placeholder="Language"
+          defaultValue={searchParams.get("language") ?? ""}
+        />
       </div>
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Status</Label>
-        <Select name="state">
+        <Select name="state" defaultValue={searchParams.get("state") ?? ""}>
           <SelectTrigger>
             <SelectValue placeholder="Status" />
           </SelectTrigger>
@@ -123,7 +144,7 @@ export default function SearchBoxFormData() {
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Order results</Label>
-        <Select name="sort">
+        <Select name="sort" defaultValue={searchParams.get("sort") ?? "none"}>
           <SelectTrigger>
             <SelectValue placeholder="Order results" />
           </SelectTrigger>
@@ -140,12 +161,15 @@ export default function SearchBoxFormData() {
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Has assignee</Label>
-        <Select name="assignee">
+        <Select
+          name="assignee"
+          defaultValue={searchParams.get("assignee")?.toString() ?? "none"}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Assignee" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="none">All</SelectItem>
             <SelectItem value="no">No Assignee</SelectItem>
           </SelectContent>
         </Select>
@@ -153,7 +177,7 @@ export default function SearchBoxFormData() {
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Repo Owner</Label>
-        <Input name="user" />
+        <Input name="user" defaultValue={searchParams.get("user") ?? ""} />
       </div>
 
       <Button type="submit">Search</Button>

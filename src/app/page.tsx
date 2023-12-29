@@ -28,14 +28,14 @@ export default async function Home({ searchParams }: Props) {
       {page !== undefined && totalCount > 0 && (
         <IssuePagination totalCount={Math.min(totalCount, 30 * 30)} />
       )}
-      {query && (
+      {page && (
         <div className="grid grid-cols-3 mt-14 gap-4">
           {issues?.map((issue) => (
             <IssueCard key={issue.id} issue={issue} />
           ))}
         </div>
       )}
-      {query && totalCount === 0 && (
+      {page && totalCount === 0 && (
         <div className="mt-10 text-center">
           <small>No issues found with given filter</small>
         </div>

@@ -165,7 +165,7 @@ export default function SearchBox() {
             <SelectValue placeholder="Assignee" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="none">All</SelectItem>
             <SelectItem value="no">No Assignee</SelectItem>
           </SelectContent>
         </Select>

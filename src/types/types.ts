@@ -104,5 +104,5 @@ export type Reactions = {
 };
 
 export type SearchParams = {
-  [key: string]: string | string[] | undefined;
+  [key: string]: string;
 };

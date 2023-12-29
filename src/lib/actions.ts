@@ -7,26 +7,38 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
   totalCount: number;
 }> {
   try {
-    const query = searchParams.query;
-
     console.log(searchParams);
-    const otherFilters = Object.keys(searchParams)
-      .filter((param) => param !== "query")
-      .map((param) => `${param}=${searchParams[param]}`)
-      .join("&");
 
-    console.log(otherFilters);
+    const paramsMap = new Map<string, string>(Object.entries(searchParams));
 
-    if (query === undefined) {
-      return {
-        issues: null,
-        totalCount: 0,
-      };
+    let queryString = "q=";
+    if (paramsMap.has("search")) {
+      queryString += paramsMap.get("search");
     }
 
-    const queryString = `q=${query}+is:issue`;
-    const url = `https://api.github.com/search/issues?${queryString}&${otherFilters}`;
-    console.log("api call to", url);
+    queryString += Object.entries(searchParams)
+      .map(([key, val]) => {
+        if (key === "search" || key === "page" || key === "sort") {
+          return "";
+        }
+        if (key === "assignee") {
+          return "no:assignee";
+        }
+        const value = val.toString().split(" ").length > 1 ? `"${val}"` : val;
+        return key + ":" + value;
+      })
+      .join(" ");
+
+    queryString += "is:issue";
+
+    if (paramsMap.has("sort")) {
+      queryString += `&sort=${paramsMap.get("sort")}`;
+    }
+
+    queryString += `&page=${paramsMap.get("page")}`;
+
+    const url = `https://api.github.com/search/issues?${queryString}`;
+    console.log(url);
 
     const res = await fetch(url, {
       headers: {
