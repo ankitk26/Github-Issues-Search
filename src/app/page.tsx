@@ -1,6 +1,7 @@
 import IssueCard from "@/components/IssueCard";
 import IssuePagination from "@/components/IssuePagination";
 import SearchBox from "@/components/SearchBox";
+import SearchBoxFormData from "@/components/SearchBoxFormData";
 import { searchIssues } from "@/lib/actions";
 import { SearchParams } from "@/types/types";
 import { redirect } from "next/navigation";
@@ -23,7 +24,7 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <section className="m-10">
-      <SearchBox />
+      <SearchBoxFormData />
       {page !== undefined && totalCount > 0 && (
         <IssuePagination totalCount={Math.min(totalCount, 30 * 30)} />
       )}

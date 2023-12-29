@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 import {
   Select,
   SelectContent,
@@ -11,110 +11,97 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { LabelComboBox } from "./LabelComboBox";
-import { Label } from "./ui/label";
-import { toast } from "sonner";
 
-export default function SearchBox() {
-  const searchParams = useSearchParams();
+export default function SearchBoxFormData() {
   const router = useRouter();
 
-  const [searchText, setSearchText] = useState(
-    localStorage.getItem("searchText") ?? ""
-  );
-  const [queryParams, setQueryParams] = useState<{ [key: string]: string }>({
-    language: localStorage.getItem("language") ?? "",
-    state: localStorage.getItem("state") ?? "none",
-    label: localStorage.getItem("label") ?? "none",
-    user: localStorage.getItem("user") ?? "",
-  });
-  const [hasAssignee, setHasAssignee] = useState(
-    localStorage.getItem("assignee") ?? "all"
-  );
-  const [orderBy, setOrderBy] = useState(
-    searchParams.get("sort")?.toString() ?? "none"
-  );
+  // function getResults(e: FormEvent) {
+  //   e.preventDefault();
 
-  function updateQueryParams(key: string, value: string) {
-    setQueryParams((prev) => ({ ...prev, [key]: value }));
-  }
+  //   const finalParams = { ...queryParams };
+  //   if (hasAssignee === "no") {
+  //     finalParams["no"] = "assignee";
+  //     localStorage.setItem("assignee", "no");
+  //   } else {
+  //     localStorage.removeItem("assignee");
+  //   }
 
-  function getResults(e: FormEvent) {
-    e.preventDefault();
+  //   const paramsToQuery = Object.entries(finalParams)
+  //     .filter(([key, val]) => {
+  //       localStorage.removeItem(key);
+  //       return val !== "none" && val !== "";
+  //     })
+  //     .map(([key, val]) => {
+  //       localStorage.setItem(key, val);
+  //       return key + ":" + val;
+  //     })
+  //     .join(" ");
 
-    const finalParams = { ...queryParams };
-    if (hasAssignee === "no") {
-      finalParams["no"] = "assignee";
-      localStorage.setItem("assignee", "no");
-    } else {
-      localStorage.removeItem("assignee");
-    }
+  //   if (searchText === "" && paramsToQuery.length === 0) {
+  //     toast("Enter some filters to display issues");
+  //     return;
+  //   }
 
-    const paramsToQuery = Object.entries(finalParams)
-      .filter(([key, val]) => {
-        localStorage.removeItem(key);
-        return val !== "none" && val !== "";
-      })
+  //   let queryString = "?query=";
+
+  //   if (searchText !== "") {
+  //     queryString += `"${searchText}" `;
+  //     localStorage.setItem("searchText", searchText);
+  //   } else {
+  //     localStorage.removeItem("searchText");
+  //   }
+
+  //   queryString += paramsToQuery;
+
+  //   if (orderBy !== "none") {
+  //     queryString += `&sort=${orderBy}`;
+  //   }
+
+  //   queryString += "&page=1";
+
+  //   console.log(queryString);
+  //   router.replace(queryString);
+  // }
+
+  function handleForm(data: FormData) {
+    let params = {} as {
+      [key: string]: string | number;
+    };
+
+    data.forEach((val, key) => {
+      if (val === "" || val === "none") {
+        return;
+      }
+      params[key] = val.toString();
+    });
+
+    const queryString = Object.entries(params)
       .map(([key, val]) => {
-        localStorage.setItem(key, val);
-        return key + ":" + val;
+        const value = val.toString().split(" ").length > 1 ? `"${val}"` : val;
+        return key + "=" + value;
       })
-      .join(" ");
+      .join("&");
 
-    if (searchText === "" && paramsToQuery.length === 0) {
-      toast("Enter some filters to display issues");
-      return;
-    }
+    router.replace(`?${queryString}&page=1`);
 
-    let queryString = "?query=";
-
-    if (searchText !== "") {
-      queryString += `"${searchText}" `;
-      localStorage.setItem("searchText", searchText);
-    } else {
-      localStorage.removeItem("searchText");
-    }
-
-    queryString += paramsToQuery;
-
-    if (orderBy !== "none") {
-      queryString += `&sort=${orderBy}`;
-    }
-
-    queryString += "&page=1";
-
-    console.log(queryString);
-    router.replace(queryString);
+    // console.log(params);
   }
 
   return (
-    <form onSubmit={getResults} className="flex flex-wrap gap-8 items-center">
+    <form action={handleForm} className="flex flex-wrap gap-8 items-center">
       <div className="flex flex-col gap-2 items-start">
         <Label>Search text in issue</Label>
-        <Input
-          value={searchText}
-          placeholder="Search for any issues"
-          onChange={(e) => {
-            setSearchText(e.target.value);
-          }}
-        />
+        <Input name="search" placeholder="Search for any issues" />
       </div>
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Language</Label>
-        <Input
-          value={queryParams.language}
-          placeholder="Language"
-          onChange={(e) => updateQueryParams("language", e.target.value)}
-        />
+        <Input name="language" placeholder="Language" />
       </div>
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Status</Label>
-        <Select
-          value={queryParams.state}
-          onValueChange={(val) => updateQueryParams("state", val)}
-        >
+        <Select name="state">
           <SelectTrigger>
             <SelectValue placeholder="Status" />
           </SelectTrigger>
@@ -126,21 +113,17 @@ export default function SearchBox() {
         </Select>
       </div>
 
-      <div className="flex items-start flex-col gap-2 flex-1">
+      {/* <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Labels</Label>
         <LabelComboBox
           updateQueryParams={updateQueryParams}
           labelValue={queryParams.label}
         />
-      </div>
+      </div> */}
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Order results</Label>
-        <Select
-          value={orderBy}
-          onValueChange={(val) => setOrderBy(val)}
-          defaultValue={searchParams.get("sort")?.toString()}
-        >
+        <Select name="sort">
           <SelectTrigger>
             <SelectValue placeholder="Order results" />
           </SelectTrigger>
@@ -157,10 +140,7 @@ export default function SearchBox() {
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Has assignee</Label>
-        <Select
-          value={hasAssignee}
-          onValueChange={(val) => setHasAssignee(val)}
-        >
+        <Select name="assignee">
           <SelectTrigger>
             <SelectValue placeholder="Assignee" />
           </SelectTrigger>
@@ -173,10 +153,7 @@ export default function SearchBox() {
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Repo Owner</Label>
-        <Input
-          value={queryParams.user}
-          onChange={(e) => updateQueryParams("user", e.target.value)}
-        />
+        <Input name="user" />
       </div>
 
       <Button type="submit">Search</Button>
