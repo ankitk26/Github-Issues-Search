@@ -15,14 +15,14 @@ export type Issue = {
   closed_at: Date | null;
 };
 
-export type User = {
+type User = {
   login: string;
   id: number;
   avatar_url: string;
   type: string;
 };
 
-export type Label = {
+type Label = {
   id: number;
   name: string;
   color: string;
