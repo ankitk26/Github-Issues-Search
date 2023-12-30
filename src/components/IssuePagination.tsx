@@ -13,7 +13,7 @@ import {
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 interface Props {
   totalCount: number;
@@ -25,7 +25,14 @@ export default function IssuePagination({ totalCount }: Props) {
 
   const params = new URLSearchParams(searchParams);
 
-  const currentUrl = "/?" + params.toString().replace(`&page=${page}`, "");
+  // const currentUrl = "/?" + params.toString().replace(`&page=${page}`, "");
+  const entries = Object.fromEntries(params.entries());
+  const currentUrl =
+    "/?" +
+    Object.entries(entries)
+      .map(([key, val]) => `${key}=${val}`)
+      .join("&")
+      .replace(`&page=${page}`, "");
 
   const totalPages = Math.ceil(totalCount / 30);
 

@@ -53,9 +53,7 @@ export default function Filters() {
       if (key === "label-input") {
         finalParams += "&input=1";
       }
-      params[key === "label-input" ? "label" : key] = val
-        .toString()
-        .replaceAll('"', "");
+      params[key === "label-input" ? "label" : key] = val.toString();
     });
 
     if (Object.entries(params).length === 0) {
@@ -139,7 +137,10 @@ export default function Filters() {
             </SelectTrigger>
             <SelectContent>
               {issueLabels.map((label) => (
-                <SelectItem key={label.value} value={label.value}>
+                <SelectItem
+                  key={encodeURIComponent(label.value)}
+                  value={label.value}
+                >
                   {label.label}
                 </SelectItem>
               ))}
