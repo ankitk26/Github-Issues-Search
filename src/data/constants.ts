@@ -6,4 +6,10 @@ export const issueLabels = [
   { value: "enhancement", label: "Enhancement" },
   { value: "feature", label: "Feature" },
   { value: "help wanted", label: "Help wanted" },
+  { value: "epic", label: "Epic" },
+  { value: "priority:low", label: "Priority - Low" },
+  { value: "priority:medium", label: "Priority - Medium" },
+  { value: "priority:high", label: "Priority - High" },
+  { value: "priority:critical", label: "Priority - Critical" },
+  { value: "discussion", label: "Discussion" },
 ];

@@ -17,6 +17,7 @@ export default async function Home({ searchParams }: Props) {
 
   const totalPages = Math.ceil(totalCount / 30);
 
+  // Redirect to page 1 if redirected to page with no results
   if (query !== undefined && totalPages === 1 && page > 1) {
     redirect(`?query=${query}&page=1`);
   }
@@ -24,16 +25,19 @@ export default async function Home({ searchParams }: Props) {
   return (
     <section className="m-10">
       <Filters />
+
       {issues && totalCount > 0 && (
         <IssuePagination totalCount={Math.min(totalCount, 30 * 30)} />
       )}
+
       {issues && (
-        <div className="grid grid-cols-3 gap-4 mt-14">
+        <div className="grid grid-cols-3 gap-4 mt-16">
           {issues?.map((issue) => (
             <IssueCard key={issue.id} issue={issue} />
           ))}
         </div>
       )}
+
       {issues && totalCount === 0 && (
         <div className="mt-10 text-center">
           <small>No issues found with given filter</small>

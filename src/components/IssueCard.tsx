@@ -16,13 +16,14 @@ interface Props {
 }
 
 export default function IssueCard({ issue }: Props) {
-  const issueUserGithubUrl = `https://github.com/${issue.user.login}`;
+  const getUserProfile = (username: string) => `https://github.com/${username}`;
+
   const issueRepoUrl = issue.url.replace("api.", "").replace("repos/", "");
 
   return (
     <Card>
       <CardHeader>
-        <div className="flex gap-2 flex-wrap items-center">
+        <div className="flex flex-wrap items-center gap-2">
           {issue.state === "open" && (
             <LockOpen2Icon className="w-4 h-4 text-orange-500" />
           )}
@@ -39,7 +40,7 @@ export default function IssueCard({ issue }: Props) {
       </CardHeader>
 
       <CardContent>
-        <div className="flex items-center gap-1 flex-wrap">
+        <div className="flex flex-wrap items-center gap-3 mt-3">
           {issue.labels.length > 0 &&
             issue.labels.map((label) => (
               <Badge key={label.id}>{label.name}</Badge>
@@ -61,7 +62,7 @@ export default function IssueCard({ issue }: Props) {
         )}
       </CardContent>
 
-      <CardFooter className="flex items-center gap-2">
+      <CardFooter className="flex items-center gap-2 mt-3">
         <Avatar>
           <AvatarImage src={issue.user.avatar_url} alt={issue.user.login} />
           <AvatarFallback>{issue.user.login[0].toUpperCase()}</AvatarFallback>
@@ -69,7 +70,11 @@ export default function IssueCard({ issue }: Props) {
         <div className="flex flex-col gap-1">
           <small className="muted">
             Created by{" "}
-            <a href={issueUserGithubUrl} target="_blank" className="underline">
+            <a
+              href={getUserProfile(issue.user.login)}
+              target="_blank"
+              className="underline"
+            >
               {issue.user.login}
             </a>
           </small>

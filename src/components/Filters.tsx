@@ -1,5 +1,4 @@
 "use client";
-
 import { issueLabels } from "@/data/constants";
 import { TextIcon } from "@radix-ui/react-icons";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -29,6 +28,9 @@ export default function Filters() {
       sort: searchParams.get("sort") || "none",
       assignee: searchParams.get("assignee") || "none",
       user: searchParams.get("user") || "",
+      labelInput: searchParams.has("input")
+        ? searchParams.get("label") ?? "none"
+        : "",
     };
   }, [searchParams]);
 
@@ -72,27 +74,27 @@ export default function Filters() {
   return (
     <form
       action={searchIssues}
-      className="grid items-stretch grid-cols-4 gap-8"
+      className="grid items-stretch grid-cols-4 gap-x-8 gap-y-10"
     >
-      <div className="flex flex-col items-start gap-2">
-        <Label>Search text in issue</Label>
+      <div className="flex flex-col items-start gap-3">
+        <Label>Search text</Label>
         <Input
           name="search"
-          placeholder="Search for any issues"
+          placeholder="Search in title, body and comments"
           defaultValue={defaultSearchParams.search}
         />
       </div>
 
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-start gap-3">
         <Label>Language</Label>
         <Input
           name="language"
-          placeholder="Language"
+          placeholder="python"
           defaultValue={defaultSearchParams.language}
         />
       </div>
 
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-start gap-3">
         <Label>Status</Label>
         <Select name="state" defaultValue={defaultSearchParams.state}>
           <SelectTrigger>
@@ -106,15 +108,13 @@ export default function Filters() {
         </Select>
       </div>
 
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-start gap-3">
         <div className="flex items-center gap-2">
           <Label>Labels</Label>
           <button
             type="button"
-            onClick={() => {
-              setLabelAsInput((prev) => !prev);
-            }}
-            className={labelAsInput ? "text-white" : "text-gray-500"}
+            onClick={() => setLabelAsInput((prev) => !prev)}
+            className={labelAsInput ? "text-purple-500" : "text-gray-500"}
           >
             <TextIcon />
           </button>
@@ -124,7 +124,7 @@ export default function Filters() {
           <Input
             name="label-input"
             placeholder="Enter label"
-            defaultValue={defaultSearchParams.label}
+            defaultValue={defaultSearchParams.labelInput}
           />
         ) : (
           <Select name="label" defaultValue={defaultSearchParams.label}>
@@ -142,7 +142,7 @@ export default function Filters() {
         )}
       </div>
 
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-start gap-3">
         <Label>Order results</Label>
         <Select name="sort" defaultValue={defaultSearchParams.sort}>
           <SelectTrigger>
@@ -159,7 +159,7 @@ export default function Filters() {
         </Select>
       </div>
 
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-start gap-3">
         <Label>Has assignee</Label>
         <Select name="assignee" defaultValue={defaultSearchParams.assignee}>
           <SelectTrigger>
@@ -172,9 +172,13 @@ export default function Filters() {
         </Select>
       </div>
 
-      <div className="flex flex-col items-start gap-2">
+      <div className="flex flex-col items-start gap-3">
         <Label>Repo Owner</Label>
-        <Input name="user" defaultValue={defaultSearchParams.user} />
+        <Input
+          name="user"
+          defaultValue={defaultSearchParams.user}
+          placeholder="ankitk26"
+        />
       </div>
 
       <Button type="submit" className="w-full h-full">

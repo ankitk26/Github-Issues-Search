@@ -37,7 +37,7 @@ export default function IssuePagination({ totalCount }: Props) {
   }
 
   return (
-    <Pagination className="mt-10">
+    <Pagination className="mt-20">
       <PaginationContent>
         {page !== 1 && totalPages > 10 && (
           <>

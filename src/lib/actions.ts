@@ -17,7 +17,7 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
 
     let queryString = "q=";
     if (paramsMap.has("search")) {
-      queryString += paramsMap.get("search");
+      queryString += paramsMap.get("search") + " ";
     }
 
     queryString += Object.entries(searchParams)
@@ -31,7 +31,7 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
       })
       .join(" ");
 
-    queryString += "is:issue";
+    queryString += " is:issue";
 
     if (paramsMap.has("sort")) {
       queryString += `&sort=${paramsMap.get("sort")}`;
@@ -40,6 +40,7 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
     queryString += `&page=${paramsMap.get("page")}`;
 
     const url = `https://api.github.com/search/issues?${queryString}`;
+    // console.log(url);
 
     const res = await fetch(url, {
       headers: {
