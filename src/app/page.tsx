@@ -31,8 +31,10 @@ export default async function Home({ searchParams }: Props) {
 
       {issues && (
         <section className="mt-12">
-          <small>{actualCount} issues found</small>
-          <div className="grid gap-4 mt-3 lg:grid-cols-3">
+          {totalCount !== 0 && (
+            <small className="mb-3">{actualCount} issues found</small>
+          )}
+          <div className="grid gap-4 lg:grid-cols-3">
             {issues?.map((issue) => (
               <IssueCard key={issue.id} issue={issue} />
             ))}
