@@ -26,7 +26,6 @@ export default function IssuePagination({ totalCount }: Props) {
   const params = new URLSearchParams(searchParams);
 
   const currentUrl = "/?" + params.toString().replace(`&page=${page}`, "");
-  console.log(currentUrl);
 
   const totalPages = Math.ceil(totalCount / 30);
 
@@ -40,14 +39,14 @@ export default function IssuePagination({ totalCount }: Props) {
   return (
     <Pagination className="mt-10">
       <PaginationContent>
-        {page !== 1 && (
+        {page !== 1 && totalPages > 10 && (
           <>
             <PaginationLink
               aria-label="Go to next page"
               size="default"
               href={`${currentUrl}&page=1`}
             >
-              <DoubleArrowLeftIcon className="h-4 w-4" />
+              <DoubleArrowLeftIcon className="w-4 h-4" />
             </PaginationLink>
             <PaginationItem>
               <PaginationPrevious href={`${currentUrl}&page=${page - 1}`} />
@@ -80,7 +79,7 @@ export default function IssuePagination({ totalCount }: Props) {
               size="default"
               href={`${currentUrl}&page=${totalPages}`}
             >
-              <DoubleArrowRightIcon className="h-4 w-4" />
+              <DoubleArrowRightIcon className="w-4 h-4" />
             </PaginationLink>
           </>
         )}

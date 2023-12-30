@@ -45,6 +45,20 @@ export default function IssueCard({ issue }: Props) {
               <Badge key={label.id}>{label.name}</Badge>
             ))}
         </div>
+        {issue.assignee && (
+          <div className="mt-4">
+            <small>
+              Assigned to{" "}
+              <a
+                href={`https://github.com/${issue.assignee.login}`}
+                target="_blank"
+                className="underline"
+              >
+                {issue.assignee.login}
+              </a>
+            </small>
+          </div>
+        )}
       </CardContent>
 
       <CardFooter className="flex items-center gap-2">

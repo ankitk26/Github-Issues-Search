@@ -4,9 +4,11 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export default function Header() {
   return (
-    <nav className="px-10 py-4 flex items-center justify-between">
+    <nav className="flex items-center justify-between px-10 py-4">
       <Link href="/">
-        <h3>Github Issues Search</h3>
+        <h3 className="text-xl font-semibold tracking-wide">
+          Github Issues Search
+        </h3>
       </Link>
       <div className="flex items-center gap-5">
         <ThemeToggler />

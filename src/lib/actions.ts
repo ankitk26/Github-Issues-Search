@@ -7,9 +7,13 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
   totalCount: number;
 }> {
   try {
-    console.log(searchParams);
-
     const paramsMap = new Map<string, string>(Object.entries(searchParams));
+    if (paramsMap.size === 0) {
+      return {
+        issues: null,
+        totalCount: 0,
+      };
+    }
 
     let queryString = "q=";
     if (paramsMap.has("search")) {
@@ -17,15 +21,13 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
     }
 
     queryString += Object.entries(searchParams)
+      .filter(([key]) => !["search", "page", "sort", "input"].includes(key))
       .map(([key, val]) => {
-        if (key === "search" || key === "page" || key === "sort") {
-          return "";
-        }
         if (key === "assignee") {
           return "no:assignee";
         }
         const value = val.toString().split(" ").length > 1 ? `"${val}"` : val;
-        return key + ":" + value;
+        return `${key}:${value}`;
       })
       .join(" ");
 
@@ -38,7 +40,6 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
     queryString += `&page=${paramsMap.get("page")}`;
 
     const url = `https://api.github.com/search/issues?${queryString}`;
-    console.log(url);
 
     const res = await fetch(url, {
       headers: {
@@ -55,7 +56,6 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
       totalCount,
     };
   } catch (e) {
-    // console.log(e);
     return {
       issues: null,
       totalCount: 0,
