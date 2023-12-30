@@ -48,9 +48,10 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
       },
     }).then((res) => res.json());
 
+    console.log(res);
+
     const issues = res.items;
     const totalCount = res.total_count;
-    console.log({ totalCount });
 
     return {
       issues,
