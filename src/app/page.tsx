@@ -30,10 +30,8 @@ export default async function Home({ searchParams }: Props) {
       {issues && totalCount > 0 && <IssuePagination totalCount={actualCount} />}
 
       {issues && (
-        <section className="mt-12">
-          {totalCount !== 0 && (
-            <small className="mb-3">{actualCount} issues found</small>
-          )}
+        <section className="flex flex-col items-start gap-3 mt-12">
+          {totalCount !== 0 && <small>{actualCount} issues found</small>}
           <div className="grid gap-4 lg:grid-cols-3">
             {issues?.map((issue) => (
               <IssueCard key={issue.id} issue={issue} />

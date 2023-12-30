@@ -21,13 +21,13 @@ export default function Filters() {
 
   const defaultSearchParams = useMemo(() => {
     return {
-      search: searchParams.get("search")?.replaceAll('"', "") || "",
-      language: searchParams.get("language") || "",
-      state: searchParams.get("state") || "none",
-      label: searchParams.get("label")?.replaceAll('"', "") || "none",
-      sort: searchParams.get("sort") || "none",
-      assignee: searchParams.get("assignee") || "none",
-      user: searchParams.get("user") || "",
+      search: searchParams.get("search")?.replaceAll('"', "") ?? "",
+      language: searchParams.get("language") ?? "",
+      state: searchParams.get("state") ?? "none",
+      label: searchParams.get("label")?.replaceAll('"', "") ?? "none",
+      sort: searchParams.get("sort") ?? "none",
+      assignee: searchParams.get("assignee") ?? "none",
+      user: searchParams.get("user") ?? "",
       labelInput: searchParams.has("input")
         ? searchParams.get("label") ?? "none"
         : "",
@@ -53,7 +53,9 @@ export default function Filters() {
       if (key === "label-input") {
         finalParams += "&input=1";
       }
-      params[key === "label-input" ? "label" : key] = val.toString();
+      params[key === "label-input" ? "label" : key] = val
+        .toString()
+        .replaceAll('"', "");
     });
 
     if (Object.entries(params).length === 0) {
@@ -71,6 +73,7 @@ export default function Filters() {
       })
       .join("&");
 
+    // console.log(queryString);
     router.replace(`?${queryString}${finalParams}`);
   }
 
@@ -136,7 +139,7 @@ export default function Filters() {
             </SelectTrigger>
             <SelectContent>
               {issueLabels.map((label) => (
-                <SelectItem key={label.value} value={label.value.toString()}>
+                <SelectItem key={label.value} value={label.value}>
                   {label.label}
                 </SelectItem>
               ))}
