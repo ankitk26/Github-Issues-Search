@@ -43,7 +43,6 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
 
     const res = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         accept: "application/vnd.github+json",
       },
     }).then((res) => res.json());
