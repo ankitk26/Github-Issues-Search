@@ -31,7 +31,7 @@ export default async function Home({ searchParams }: Props) {
       )}
 
       {issues && (
-        <div className="grid grid-cols-3 gap-4 mt-16">
+        <div className="grid gap-4 mt-16 lg:grid-cols-3">
           {issues?.map((issue) => (
             <IssueCard key={issue.id} issue={issue} />
           ))}

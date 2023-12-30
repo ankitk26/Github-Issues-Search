@@ -23,7 +23,7 @@ export default function IssueCard({ issue }: Props) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-col items-center gap-2 lg:flex-row lg:flex-wrap">
           {issue.state === "open" && (
             <LockOpen2Icon className="w-4 h-4 text-orange-500" />
           )}

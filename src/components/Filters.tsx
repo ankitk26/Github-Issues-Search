@@ -74,7 +74,7 @@ export default function Filters() {
   return (
     <form
       action={searchIssues}
-      className="grid items-stretch grid-cols-4 gap-x-8 gap-y-10"
+      className="grid items-stretch lg:grid-cols-4 gap-x-8 gap-y-10"
     >
       <div className="flex flex-col items-start gap-3">
         <Label>Search text</Label>
