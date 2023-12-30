@@ -63,7 +63,10 @@ export default function Filters() {
 
     const queryString = Object.entries(params)
       .map(([key, val]) => {
-        const value = val.toString().split(" ").length > 1 ? `"${val}"` : val;
+        const value =
+          val.toString().replaceAll('"', "").split(" ").length > 1
+            ? `"${val}"`
+            : val;
         return key + "=" + encodeURIComponent(value);
       })
       .join("&");

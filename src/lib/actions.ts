@@ -26,8 +26,7 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
         if (key === "assignee") {
           return "no:assignee";
         }
-        const value = val.toString().split(" ").length > 1 ? `"${val}"` : val;
-        return `${key}:${value}`;
+        return `${key}:${val}`;
       })
       .join(" ");
 
