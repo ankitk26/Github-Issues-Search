@@ -39,7 +39,7 @@ export async function searchIssues(searchParams: SearchParams): Promise<{
     queryString += `&page=${paramsMap.get("page")}`;
 
     const url = `https://api.github.com/search/issues?${queryString}`;
-    // console.log(url);
+    console.log(url);
 
     const res = await fetch(url, {
       headers: {
