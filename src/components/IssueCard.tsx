@@ -42,7 +42,7 @@ export default function IssueCard({ issue }: Props) {
         <div className="flex items-center gap-1 flex-wrap">
           {issue.labels.length > 0 &&
             issue.labels.map((label) => (
-              <Badge key={label.name}>{label.name}</Badge>
+              <Badge key={label.id}>{label.name}</Badge>
             ))}
         </div>
       </CardContent>

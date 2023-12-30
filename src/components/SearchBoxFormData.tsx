@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { toast } from "sonner";
+import { issueLabels } from "@/data/constants";
 
 export default function SearchBoxFormData() {
   const router = useRouter();
@@ -96,8 +97,6 @@ export default function SearchBoxFormData() {
 
     console.log("client", queryString);
     router.replace(`?${queryString}${finalParams}`);
-
-    // console.log(params);
   }
 
   return (
@@ -134,13 +133,21 @@ export default function SearchBoxFormData() {
         </Select>
       </div>
 
-      {/* <div className="flex items-start flex-col gap-2 flex-1">
+      <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Labels</Label>
-        <LabelComboBox
-          updateQueryParams={updateQueryParams}
-          labelValue={queryParams.label}
-        />
-      </div> */}
+        <Select name="label" defaultValue={searchParams.get("label") ?? "none"}>
+          <SelectTrigger>
+            <SelectValue placeholder="Label" />
+          </SelectTrigger>
+          <SelectContent>
+            {issueLabels.map((label) => (
+              <SelectItem key={label.value} value={label.value}>
+                {label.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
       <div className="flex items-start flex-col gap-2 flex-1">
         <Label>Order results</Label>
